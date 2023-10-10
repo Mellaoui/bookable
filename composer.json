@@ -1,0 +1,21 @@
+{
+    "name": "mellaoui/bookable",
+    "description": "Bookable package makes it super easy to add booking feature to your model in laravel",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Mellaoui\\Bookable\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mellaoui Mohammed elghazali",
+            "email": "Modijavelin@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "orchestra/testbench": "dev-develop"
+    }
+}
