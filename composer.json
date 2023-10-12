@@ -17,5 +17,9 @@
     "minimum-stability": "dev",
     "require-dev": {
         "orchestra/testbench": "dev-develop"
+    },
+    "require": {
+        "php" : "8.*",
+        "laravel/framework": "10.*"
     }
 }
