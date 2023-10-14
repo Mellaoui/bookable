@@ -16,7 +16,8 @@
     ],
     "minimum-stability": "dev",
     "require-dev": {
-        "orchestra/testbench": "dev-develop"
+        "orchestra/testbench": "dev-develop",
+        "laravel/pint": "dev-main"
     },
     "require": {
         "php" : "8.*",

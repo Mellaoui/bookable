@@ -2,17 +2,46 @@
 
 namespace Mellaoui\Bookable\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Booking extends Model
 {
-    public function bookable(): \Illuminate\Database\Eloquent\Relations\MorphTo
+    public $appends = ['bookingsCount'];
+
+    protected $guarded = [];
+
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+    ];
+
+    public function bookable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    // -- Scopes -- //
+
+    public function scopeIsCancelled(Builder $query): void
+    {
+        $query->where('status', 'cancelled');
+    }
+
+    public function scopeIsPending(Builder $query): void
+    {
+        $query->where('status', 'pending');
+    }
+
+    public function scopeIsConfirmed(Builder $query): void
+    {
+        $query->where('status', 'confirmed');
     }
 }
