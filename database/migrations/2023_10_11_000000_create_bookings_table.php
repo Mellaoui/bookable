@@ -1,11 +1,11 @@
 <?php
 
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -13,12 +13,16 @@ return new class extends Migration {
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
+
             $table->foreignId('user_id')->constrained();
-            $table->unsignedBigInteger('bookable_id');
-            $table->string('bookable_type');
+            $table->morphs('bookeable');
+
+            $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
             $table->timestamps();
 
-            $table->index(['bookable_id','bookable_type']);
+            // $table->index(['bookable_id', 'bookable_type']);
         });
     }
 
