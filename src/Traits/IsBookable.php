@@ -66,12 +66,4 @@ trait IsBookable
             ->where('user_id', $user->id)
             ->exists();
     }
-
-    // public function isAvailable(DateTime $startDate, DateTime $endDate): bool
-    // {
-    //     return !$this->bookings()
-    //         ->where('start_date', '<=', $endDate)
-    //         ->where('end_date', '>=', $startDate)
-    //         ->exists();
-    // }
 }
