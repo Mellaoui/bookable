@@ -15,8 +15,8 @@ class BookableServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     }
 
-    public function register()
+    public function register(): void
     {
-        //
+        $this->mergeConfigFrom(__DIR__.'/../config/booking.php', 'booking');
     }
 }

@@ -17,10 +17,16 @@
     "minimum-stability": "dev",
     "require-dev": {
         "orchestra/testbench": "dev-develop",
-        "laravel/pint": "dev-main"
+        "laravel/pint": "dev-main",
+        "pestphp/pest": "2.x-dev"
     },
     "require": {
         "php" : "8.*",
         "laravel/framework": "10.*"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }

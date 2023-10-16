@@ -18,6 +18,13 @@ class Booking extends Model
         'end_date' => 'datetime',
     ];
 
+    public function __construct(array $attributes = [])
+    {
+        $this->table = config('booking.bookings_table');
+
+        parent::__construct($attributes);
+    }
+
     public function bookable(): MorphTo
     {
         return $this->morphTo();

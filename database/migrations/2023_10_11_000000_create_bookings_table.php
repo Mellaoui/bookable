@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bookings', function (Blueprint $table) {
+        Schema::create(config('booking.bookings_table'), function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('user_id')->constrained();
+            $table->unsignedBigInteger(config('booking.user_foreign_key'))->index()->comment('user_id');
             $table->morphs('bookeable');
 
             $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bookings');
+        Schema::dropIfExists(config('booking.bookings_table'));
     }
 };
