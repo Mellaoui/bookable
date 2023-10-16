@@ -2,10 +2,9 @@
 
 namespace Mellaoui\Bookable\Traits;
 
-use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Mellaoui\Bookable\Exceptions\BookingException;
-use Mellaoui\Bookable\Exceptions\UserException;
+use Mellaoui\Bookable\Exceptions\BookerException;
 use Mellaoui\Bookable\Models\Booking;
 
 trait IsBookable
@@ -15,14 +14,14 @@ trait IsBookable
         return $this->morphMany(Booking::class, 'bookable');
     }
 
-    public function book(Authenticatable $user): Booking
+    public function bookBy(Model $user): Booking
     {
-        if (!$user->exists) {
-            throw UserException::doesNotExist();
+        if (! $user->exists) {
+            throw BookerException::doesNotExist();
         }
 
         if ($this->isBookedBy($user)) {
-            throw BookingException::alreadyExists();
+            throw BookerException::alreadyBooked();
         }
 
         $booking = new Booking();
@@ -34,12 +33,21 @@ trait IsBookable
         return $booking;
     }
 
-    public function unbook(): void
+    public function unbookBy(Model $user): void
     {
-        if (!$this->isBooked()) {
-            throw BookingException::doesNotExist();
+        if (! $user->exists) {
+            throw BookerException::doesNotExist();
         }
 
+        if (! $this->isBookedBy($user)) {
+            throw BookerException::notBookedByUser();
+        }
+
+        $this->bookings()->delete();
+    }
+
+    public function unbookAll(): void
+    {
         $this->bookings()->delete();
     }
 
@@ -48,11 +56,10 @@ trait IsBookable
         return $this->bookings()->exists();
     }
 
-    // Untested
-    public function isBookedBy(Authenticatable $user): bool
+    public function isBookedBy(Model $user): bool
     {
-        if (!$user->exists) {
-            throw UserException::doesNotExist();
+        if (! $user->exists) {
+            throw BookerException::doesNotExist();
         }
 
         return $this->bookings()
