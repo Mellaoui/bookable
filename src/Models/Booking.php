@@ -20,7 +20,7 @@ class Booking extends Model
 
     public function __construct(array $attributes = [])
     {
-        $this->table = config('booking.bookings_table');
+        $this->table = config('bookable.bookings_table');
 
         parent::__construct($attributes);
     }
@@ -32,7 +32,7 @@ class Booking extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(config('bookable.user_model'));
     }
 
     // -- Scopes -- //
