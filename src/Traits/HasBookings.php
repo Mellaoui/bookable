@@ -26,7 +26,7 @@ trait HasBookings
             throw BookableException::alreadyBooked();
         }
 
-        if (!$bookable->exists) {
+        if (! $bookable->exists) {
             throw BookableException::doesNotExist();
         }
 
@@ -45,15 +45,15 @@ trait HasBookings
      */
     public function unbook(Model $bookable): void
     {
-        if (!$bookable->isBooked()) {
+        if (! $bookable->isBooked()) {
             throw BookableException::notBooked();
         }
 
-        if (!$this->bookings()->where('bookable_id', $bookable->id)->exists()) {
+        if (! $this->bookings()->where('bookable_id', $bookable->id)->exists()) {
             throw BookerException::notBookedByUser();
         }
 
-        if (!Booking::where('bookable_id', $bookable->id)->exists()) {
+        if (! Booking::where('bookable_id', $bookable->id)->exists()) {
             throw BookingException::doesNotExist();
         }
 

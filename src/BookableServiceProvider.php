@@ -13,21 +13,21 @@ class BookableServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/bookable.php', 'bookable');
+        $this->mergeConfigFrom(__DIR__.'/../config/bookable.php', 'bookable');
     }
 
     protected function registerPublishables(): void
     {
-        if (!$this->app->runningInConsole()) {
+        if (! $this->app->runningInConsole()) {
             return;
         }
 
         $this->publishes([
-            __DIR__ . '/../config/bookable.php' => config_path('bookable.php'),
+            __DIR__.'/../config/bookable.php' => config_path('bookable.php'),
         ], 'config');
 
         $this->publishes([
-            __DIR__ . '/../database/migrations' => database_path('migrations'),
+            __DIR__.'/../database/migrations' => database_path('migrations'),
         ], 'migrations');
     }
 }
