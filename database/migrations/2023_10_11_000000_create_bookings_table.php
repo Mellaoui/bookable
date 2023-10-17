@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger(config('booking.user_foreign_key'))->index()->comment('user_id');
-            $table->morphs('bookeable');
+            $table->morphs('bookable');
 
             $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
             $table->timestamp('start_date')->nullable();
