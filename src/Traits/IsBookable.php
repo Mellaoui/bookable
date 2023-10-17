@@ -20,8 +20,7 @@ trait IsBookable
      */
     public function bookBy(Model $user, DateTime $start_at, DateTime $end_at): Booking
     {
-        if (!$user->exists) {
-            dd('we here');
+        if (! $user->exists) {
             throw BookerException::doesNotExist();
         }
 
@@ -46,11 +45,11 @@ trait IsBookable
      */
     public function unbookBy(Model $user): void
     {
-        if (!$user->exists) {
+        if (! $user->exists) {
             throw BookerException::doesNotExist();
         }
 
-        if (!$this->isBookedBy($user)) {
+        if (! $this->isBookedBy($user)) {
             throw BookerException::notBookedByUser();
         }
 
@@ -72,7 +71,7 @@ trait IsBookable
      */
     public function isBookedBy(Model $user): bool
     {
-        if (!$user->exists) {
+        if (! $user->exists) {
             throw BookerException::doesNotExist();
         }
 
@@ -86,11 +85,11 @@ trait IsBookable
      */
     public function getDurationFor(Model $user): DateTime
     {
-        if (!$user->exists) {
+        if (! $user->exists) {
             throw BookerException::doesNotExist();
         }
 
-        if (!$this->isBookedBy($user)) {
+        if (! $this->isBookedBy($user)) {
             throw BookerException::notBookedByUser();
         }
 
@@ -100,7 +99,6 @@ trait IsBookable
             ->latest()
             ->first();
 
-        return
-            $booking->start_at->diff($booking->end_at);
+        return $booking->start_at->diff($booking->end_at);
     }
 }
