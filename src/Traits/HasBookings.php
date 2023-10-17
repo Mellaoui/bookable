@@ -2,6 +2,7 @@
 
 namespace Mellaoui\Bookable\Traits;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mellaoui\Bookable\Exceptions\BookableException;
@@ -16,38 +17,43 @@ trait HasBookings
         return $this->hasMany(Booking::class);
     }
 
-    public function book(Model $bookable, \DateTimeInterface $start_date, \DateTimeInterface $end_date): void
+    /**
+     * @throws BookableException|BookingException
+     */
+    public function book(Model $bookable, DateTime $start_at, DateTime $end_at = null): void
     {
         if ($bookable->isBooked()) {
             throw BookableException::alreadyBooked();
         }
 
-        if (! $bookable->exists) {
+        if (!$bookable->exists) {
             throw BookableException::doesNotExist();
         }
 
-        if ($start_date > $end_date) {
+        if ($start_at < now() || $end_at < now() || $start_at > $end_at) {
             throw BookingException::invalidDates();
         }
 
         $this->bookings()->save($bookable->bookings()->make([
-            'start_date' => $start_date,
-            'end_date' => $end_date,
+            'start_at' => $start_at,
+            'end_at' => $end_at,
         ]));
     }
 
-    // untested
+    /**
+     * @throws BookableException|BookerException|BookingException
+     */
     public function unbook(Model $bookable): void
     {
-        if (! $bookable->isBooked()) {
+        if (!$bookable->isBooked()) {
             throw BookableException::notBooked();
         }
 
-        if (! $this->bookings()->where('bookable_id', $bookable->id)->exists()) {
+        if (!$this->bookings()->where('bookable_id', $bookable->id)->exists()) {
             throw BookerException::notBookedByUser();
         }
 
-        if (! Booking::where('bookable_id', $bookable->id)->exists()) {
+        if (!Booking::where('bookable_id', $bookable->id)->exists()) {
             throw BookingException::doesNotExist();
         }
 
