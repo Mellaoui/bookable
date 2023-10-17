@@ -11,7 +11,7 @@
     "homepage": "https://github.com/mellaoui/bookable",
     "autoload": {
         "psr-4": {
-            "Mellaoui\\Bookable\\": "src"
+            "Mellaoui\\Bookable\\": "src/"
         }
     },
     "minimum-stability": "dev",
