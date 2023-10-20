@@ -1,25 +1,48 @@
 {
     "name": "mellaoui/bookable",
-    "description": "Bookable package makes it super easy to add booking feature to your model in laravel",
-    "type": "library",
+    "description": "Add booking features to Eloquent models",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Mellaoui\\Bookable\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "Mellaoui Mohammed elghazali",
             "email": "Modijavelin@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "require-dev": {
-        "orchestra/testbench": "dev-develop"
+    "homepage": "https://github.com/mellaoui/bookable",
+    "autoload": {
+        "psr-4": {
+            "Mellaoui\\Bookable\\": "src/"
+        }
     },
+    "minimum-stability": "dev",
     "require": {
-        "php" : "8.*",
-        "laravel/framework": "10.*"
+        "php": "^8.0",
+        "laravel/framework": "^10.0"
+    },
+    "require-dev": {
+        "laravel/pint": "dev-main",
+        "orchestra/testbench": "dev-develop",
+        "pestphp/pest": "2.x-dev",
+        "phpstan/phpstan": "1.11.x-dev"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mellaoui\\Bookable\\BookableServiceProvider"
+            ],
+            "aliases": {
+                "Bookable": "Mellaoui\\Bookable\\Facades\\Bookable"
+            }
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "format": "vendor/bin/pint"
     }
 }
